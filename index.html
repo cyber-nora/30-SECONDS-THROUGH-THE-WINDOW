@@ -463,7 +463,7 @@
       const progressBar = document.getElementById('timer-bar');
       progressBar.style.width = '0%';
       let elapsed = 0;
-      const duration = 10000;
+      const duration = 30000;
 
       timerInterval = setInterval(() => {
         elapsed += 100;
@@ -477,7 +477,7 @@
       // 6. 10秒後リセット
       resetTimeout = setTimeout(() => {
         resetToBase();
-      }, 10000);
+      }, 30000);
     }
 
     function stopCurrent() {
