@@ -455,9 +455,45 @@
       requestAnimationFrame(() => poemEl.classList.add('visible'));
 
       // 4. 音声の再生
-      currentAudio = new Audio(track.audioSrc);
-      currentAudio.addEventListener('ended', resetToBase, { once: true });
-      currentAudio.play().catch(e => console.log("Audio play error:", e));
+currentAudio = new Audio(track.audioSrc);
+currentAudio.volume = 0;
+
+currentAudio.addEventListener('ended', resetToBase, { once: true });
+
+currentAudio.play().then(() => {
+  // フェードイン（2秒）
+  let fadeInStart = Date.now();
+
+  const fadeInInterval = setInterval(() => {
+    const elapsed = (Date.now() - fadeInStart) / 1000;
+    currentAudio.volume = Math.min(elapsed / 2, 1);
+
+    if (elapsed >= 2) {
+      clearInterval(fadeInInterval);
+    }
+  }, 50);
+
+  // フェードアウト（終了3秒前から）
+  setTimeout(() => {
+    const fadeOutStart = Date.now();
+
+    const fadeOutInterval = setInterval(() => {
+      if (!currentAudio) {
+        clearInterval(fadeOutInterval);
+        return;
+      }
+
+      const elapsed = (Date.now() - fadeOutStart) / 1000;
+      currentAudio.volume = Math.max(1 - (elapsed / 3), 0);
+
+      if (elapsed >= 3) {
+        clearInterval(fadeOutInterval);
+      }
+    }, 50);
+
+  }, 27000);
+
+}).catch(e => console.log("Audio play error:", e));
 
       // 5. プログレスバー（10秒）
       const progressBar = document.getElementById('timer-bar');
