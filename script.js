@@ -4,7 +4,7 @@
 let currentAudio = null;
 let timer = null;
 let progressInterval = null;
-const DURATION = 10; // 10秒間固定
+const DURATION = 30; // 10秒間固定
 
 const buttons = document.querySelectorAll('.track-btn');
 const windowFrame = document.getElementById('windowFrame');
