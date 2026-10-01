@@ -482,8 +482,8 @@ const fadeOutCheck = setInterval(() => {
 
   const remaining = currentAudio.duration - currentAudio.currentTime;
 
-  if (remaining <= 3) {
-    currentAudio.volume = Math.max(remaining / 3, 0);
+  if (remaining <= 2) {
+    currentAudio.volume = Math.max(remaining / 2, 0);
   }
 
   if (remaining <= 0) {
