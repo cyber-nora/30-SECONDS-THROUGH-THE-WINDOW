@@ -473,25 +473,23 @@ currentAudio.play().then(() => {
     }
   }, 50);
 
-  // フェードアウト（終了3秒前から）
-  setTimeout(() => {
-    const fadeOutStart = Date.now();
+  // フェードアウト（音源の実際の終了3秒前から）
+const fadeOutCheck = setInterval(() => {
+  if (!currentAudio) {
+    clearInterval(fadeOutCheck);
+    return;
+  }
 
-    const fadeOutInterval = setInterval(() => {
-      if (!currentAudio) {
-        clearInterval(fadeOutInterval);
-        return;
-      }
+  const remaining = currentAudio.duration - currentAudio.currentTime;
 
-      const elapsed = (Date.now() - fadeOutStart) / 1000;
-      currentAudio.volume = Math.max(1 - (elapsed / 3), 0);
+  if (remaining <= 3) {
+    currentAudio.volume = Math.max(remaining / 3, 0);
+  }
 
-      if (elapsed >= 3) {
-        clearInterval(fadeOutInterval);
-      }
-    }, 50);
-
-  }, 27000);
+  if (remaining <= 0) {
+    clearInterval(fadeOutCheck);
+  }
+}, 50);
 
 }).catch(e => console.log("Audio play error:", e));
 
